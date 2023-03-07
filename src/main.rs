@@ -1,31 +1,24 @@
 use std::process::Command;
+use inquire::Select;
+use inquire::InquireError;
+
 
 fn main() {
 
-//    let output = Command::new("nmcli").arg("dev").arg("wifi").arg("list").output().expect("Please install nmcli to make this work");
-//    let output_string = String::from_utf8_lossy(&output.stdout);
-//    for line in output_string.split("/n"){
-////        let words = line.split("  ");
-////        let mut is_start = false;
-////        let mut is_end = false;
-//        let mut d = 0;
-//        let mut space_count = 0;
-//        for letter in line.split(""){
-//            if letter == "D"{
-//                d += 1;
-//            }
-//            if d == 2 && letter == " "{
-//                space_count += 1;
-//            }
-//            if letter == "M"{
-//                d += 1;
-//            }
-//            println!("{}",letter)
-//        };
-//        println!("{}",space_count)
-////        for word in words {
-////            println!("{}",word);
-////        }
-//    }
+    println!("Scanning for wifi...");
+    let output  = Command::new("nmcli").arg("-f").arg("SSID").arg("device").arg("wifi")
+        .output().expect("`nmcli` returned an error while scanning for wifi networks");
+    let output_string = String::from_utf8_lossy(&output.stdout).to_string();
+    let mut wifi_ssids: Vec<String> = output_string.clone().split("\n").map(|s| s.to_string()).collect();
+    wifi_ssids.remove(0);
+    wifi_ssids.remove(wifi_ssids.len() - 1);
+    let wifi_ssid_options: Vec<&str> = wifi_ssids.iter().map(|s| &**s).collect();
+    let answer: Result<&str, InquireError> = Select::new("Select the SSID you want to connect", wifi_ssid_options).prompt();
+    let selected_ssid: &str;
+    match answer {
+        Ok(choice) => selected_ssid = choice,
+        Err(_) => panic!("There was an error, please try again"),
+    }
+    println!("Your selected SSID is: {}", selected_ssid);
 
 }
