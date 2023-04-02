@@ -42,13 +42,16 @@ fn main() {
         };
         let mut sp = Spinner::new(
             Spinners::Aesthetic,
-            format!("Connecting to \"{}\"", password_answer).into(),
+            format!("Connecting to \"{}\"", selected_ssid).into(),
         );
         let connect_ssid_result =
             connect_ssid(&selected_ssid.to_string(), Option::Some(password_answer));
         sp.stop();
         match connect_ssid_result {
-            Ok(ok) => println!("{}", ok),
+            Ok(ok) => {
+                println!("{}", ok);
+                process::exit(1)
+            }
             Err(error) => {
                 eprintln!("{}", error);
                 continue;
