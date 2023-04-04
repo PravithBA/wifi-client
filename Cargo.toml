@@ -2,6 +2,14 @@
 name = "wifi-client"
 version = "0.1.0"
 edition = "2021"
+authors = ["Pravith B A <pravithba10@gmail.com>"]
+license = "MIT"
+description = "A cli tool for connecting to wifi"
+readme = "README.md"
+homepage = "https://github.com/PravithBA/wifi-client"
+repository = "https://github.com/PravithBA/wifi-client"
+keywords = ["cli", "wifi"]
+categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
