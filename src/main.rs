@@ -30,7 +30,7 @@ fn main() {
             }
         };
         let password_answer =
-            Password::new(format!("Please enter the password for '{}'", selected_ssid).as_str())
+            Password::new(format!("Please enter the password for \"{}\"", selected_ssid).as_str())
                 .without_confirmation()
                 .prompt();
         let password_answer = match password_answer {
@@ -61,6 +61,12 @@ fn main() {
 }
 
 fn scan_ssids() -> Result<Vec<String>, Box<dyn Error>> {
+    // Rescan before getting the ssids
+    Command::new("nmcli")
+        .arg("dev")
+        .arg("wifi")
+        .arg("rescan")
+        .output()?;
     let get_ssid_output = Command::new("nmcli")
         .arg("-t")
         .arg("-f")
