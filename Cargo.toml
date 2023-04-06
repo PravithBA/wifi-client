@@ -15,4 +15,5 @@ categories = ["command-line-utilities"]
 
 [dependencies]
 inquire = "0.5.3"
+regex = "1.7.3"
 spinners = "4.1.0"
