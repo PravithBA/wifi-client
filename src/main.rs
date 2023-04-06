@@ -124,7 +124,9 @@ fn get_nearby_wifi() -> Result<Vec<WifiData>, Box<dyn Error>> {
                     false
                 },
                 wifi_split_string[1].to_owned(),
-                wifi_split_string[2].to_owned(),
+                // The replace is there because nmcli adds escapes `:`, and for connecting, it
+                // requires the ssid to not have the escaped `:`
+                wifi_split_string[2].replace("\\:", ":").to_owned(),
                 wifi_split_string[3].to_owned(),
                 wifi_split_string[4].to_owned(),
                 wifi_split_string[5].to_owned(),
